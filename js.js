@@ -1,3 +1,5 @@
+
+
 // x는 오른쪽, y는 아래쪽으로 픽셀 단위로 증가
 window.onload = function () {
     let canvas = document.getElementById("canvas")
@@ -10,26 +12,24 @@ window.onload = function () {
     let boxs_xy3 = [] //오른쪽 위에서 나오는 박스들 
     let boxs_xy2 = [] //왼쪽 아래에서 나오는 박스들 
     let boxs_xy4 = [] //왼쪽 위에서 나오는 박스들 
-    let boxs_xy5 = [] //왼쪽 위에서 나오는 박스들 
-    let mouse_x;
-    let mouse_y;
+    let boxs_xy5 = [] //플레이어을 향해서 나오는 박스들 
+    let mouse_x = 0;
+    let mouse_y = 0;
     let animation;
     let collsion = false;
     //난이도 결정해주는 변수 3,4,5,6,7,8,9
     var difficulty = Math.floor((Math.random() * (40 - 30))) + 30;
-    var running = false;
-    var raf;
-    console.log(difficulty)
+    var running = true;
 
     // canvas 가로 및 세로의 반값 > 150
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight - 5
+    let canvas_width = canvas.width = window.innerWidth
+    let canvas_height = canvas.height = window.innerHeight - 5
 
     //아래에서 나오는 박스에 대한 위치 및 스타일 함수
     class box_y {
         constructor() {
-            this.x = Math.floor((Math.random() * 2000)) + 1;
-            this.y = 1005;
+            this.x = Math.floor((Math.random() * canvas_width)) + 1;
+            this.y = canvas_height;
             this.width = 50;
             this.height = 50;
         }
@@ -41,8 +41,8 @@ window.onload = function () {
     //오른쪽에서 나오는 박스에 대한 위치 및 스타일 함수
     class box_x {
         constructor() {
-            this.x = 1930;
-            this.y = Math.floor((Math.random() * 1000)) + 1
+            this.x = canvas_width;
+            this.y = Math.floor((Math.random() * canvas_height)) + 1
             this.width = 50;
             this.height = 50;
         }
@@ -54,8 +54,8 @@ window.onload = function () {
     //오른쪽 아래 대각선에서 나오는 박스에 대한 위치 및 스타일
     class box_xy1 {
         constructor() {
-            this.x = 1930;
-            this.y = Math.floor((Math.random() * 1000)) + 1
+            this.x = canvas_width;
+            this.y = Math.floor((Math.random() * canvas_height)) + 1
             this.width = 50;
             this.height = 50;
         }
@@ -67,8 +67,8 @@ window.onload = function () {
     //오른쪽 위 대각선에서 나오는 박스에 대한 위치 및 스타일
     class box_xy3 {
         constructor() {
-            this.x = 1930;
-            this.y = Math.floor((Math.random() * 1000)) + 1
+            this.x = canvas_width;
+            this.y = Math.floor((Math.random() * canvas_height)) + 1
             this.width = 50;
             this.height = 50;
         }
@@ -81,7 +81,7 @@ window.onload = function () {
     class box_xy2 {
         constructor() {
             this.x = 0;
-            this.y = Math.floor((Math.random() * 1000)) + 1
+            this.y = Math.floor((Math.random() * canvas_height)) + 1
             this.width = 50;
             this.height = 50;
         }
@@ -94,7 +94,7 @@ window.onload = function () {
     class box_xy4 {
         constructor() {
             this.x = 0;
-            this.y = Math.floor((Math.random() * 1000)) + 1
+            this.y = Math.floor((Math.random() * canvas_height)) + 1
             this.width = 50;
             this.height = 50;
         }
@@ -106,7 +106,7 @@ window.onload = function () {
     //플레이어을 항하는 박스에 대한 위치 및 스타일
     class box_xy5 {
         constructor() {
-            this.x = 1930;
+            this.x = canvas_width;
             this.y = mouse_y;
             this.width = 50;
             this.height = 50;
@@ -116,7 +116,8 @@ window.onload = function () {
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
     }
-
+   
+    
     //마우스와 오른쪽에서 나오는 박스 충돌 감지해주는 함수
     function Collision_x(box_x) {
         if
@@ -130,6 +131,7 @@ window.onload = function () {
                 (box_x.y <= mouse_y && mouse_y <= box_x.y + 50))
         ) { collsion = true; }
         if (collsion) {
+            running = false;
             cancelAnimationFrame(animation);
             console.log("살아남은 시간 :" + Game_timer + "초")
             console.log("끝")
@@ -148,6 +150,7 @@ window.onload = function () {
                 (box_y.y <= mouse_y && mouse_y <= box_y.y + 50))
         ) { collsion = true; }
         if (collsion) {
+            running = false;
             cancelAnimationFrame(animation);
             console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
@@ -166,6 +169,7 @@ window.onload = function () {
                 (box_xy1.y <= mouse_y && mouse_y <= box_xy1.y + 50))
         ) { collsion = true; }
         if (collsion) {
+            running = false;
             cancelAnimationFrame(animation);
             console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
@@ -184,6 +188,7 @@ window.onload = function () {
                 (box_xy3.y <= mouse_y && mouse_y <= box_xy3.y + 50))
         ) { collsion = true; }
         if (collsion) {
+            running = false;
             cancelAnimationFrame(animation);
             console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
@@ -202,6 +207,7 @@ window.onload = function () {
                 (box_xy2.y <= mouse_y && mouse_y <= box_xy2.y + 50))
         ) { collsion = true; }
         if (collsion) {
+            running = false;
             cancelAnimationFrame(animation);
             console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
@@ -220,6 +226,7 @@ window.onload = function () {
                 (box_xy4.y <= mouse_y && mouse_y <= box_xy4.y + 50))
         ) { collsion = true; }
         if (collsion) {
+            running = false;
             cancelAnimationFrame(animation);
             console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
@@ -238,6 +245,7 @@ window.onload = function () {
                 (box_xy5.y <= mouse_y && mouse_y <= box_xy5.y + 50))
         ) { collsion = true; }
         if (collsion) {
+            running = false;
             cancelAnimationFrame(animation);
             console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
@@ -265,7 +273,8 @@ window.onload = function () {
             boxs_xy2.push(box_xyNew2) //왼쪽 아래 박스
             boxs_xy4.push(box_xyNew4) //왼쪽 위 박스
         }
-        if (timer % 50 === 0) {
+        //플레이어를 향해서 날라오는 박스가 나오는 시간
+        if (timer % 30 === 0) {
             let box_xyNew5 = new box_xy5 //플레이어 향하는 박스
             boxs_xy5.push(box_xyNew5) //플레이어 향하는 박스
         }
@@ -337,7 +346,18 @@ window.onload = function () {
             object.draw()
         })
     }
+
     Frameanimation()
+
+    window.addEventListener("keydown", e => {
+        const key = e.keyCode;
+        if(!running){
+
+            if(key == 82){
+                location.reload();
+            }
+        }
+      });
 
     //마우스 위치 함수
     canvas.addEventListener('mousemove', function (e) {
@@ -345,9 +365,26 @@ window.onload = function () {
         mouse_y = e.clientY
     });
 
+
+    //마우스 화면 밖으로 나가면
+    canvas.addEventListener('mouseout', function(e) {
+        cancelAnimationFrame(animation);
+        running = false;
+      });
+    
+    //부정행위 금지 함수
+    setTimeout(function() { 
+        if(mouse_x == 0){
+            alert("부정행위 금지")
+            cancelAnimationFrame(animation);
+            location.reload();
+        }
+     }, 500);
+
     //초기화 함수
     function clear() {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 }
+
