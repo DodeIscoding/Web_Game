@@ -47,11 +47,11 @@ window.onload = function () {
         difficulty = Math.floor((Math.random() * (20 - 12))) + 12;
         console.log(difficulty)
     }
-    //아래에서 나오는 박스에 대한 위치 및 스타일 함수
+    //왼쪽에서 나오는 박스에 대한 위치 및 스타일 함수
     class box_y {
         constructor() {
-            this.x = Math.floor((Math.random() * canvas_width)) + 1;
-            this.y = canvas_height;
+            this.x = 0;
+            this.y = Math.floor((Math.random() * canvas_height)) + 1
             this.width = 50;
             this.height = 50;
         }
@@ -103,7 +103,7 @@ window.onload = function () {
     class box_xy2 {
         constructor() {
             this.x = 0;
-            this.y = Math.floor((Math.random() * canvas_height)) + 1
+            this.y = Math.floor((Math.random() * canvas_height)) 
             this.width = 50;
             this.height = 50;
         }
@@ -116,7 +116,7 @@ window.onload = function () {
     class box_xy4 {
         constructor() {
             this.x = 0;
-            this.y = Math.floor((Math.random() * canvas_height)) + 1
+            this.y = Math.floor((Math.random() * canvas_height)) 
             this.width = 50;
             this.height = 50;
         }
@@ -158,7 +158,7 @@ window.onload = function () {
             console.log("끝")
         }
     }
-    //마우스와 아래에서 나오는 박스 충돌 감지해주는 함수
+    //마우스와 왼쪽에서 나오는 박스 충돌 감지해주는 함수
     function Collision_y(box_y) {
         if
             (
@@ -304,12 +304,12 @@ window.onload = function () {
             Collision_x(object)
             object.draw()
         })
-        //아래에서 박스가 나옴  
+        //왼쪽에서 박스가 나옴  
         boxs_y.forEach((object, index, array) => {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.y -= 10;
+            object.x += 10;
             Collision_y(object)
             object.draw()
         })
@@ -384,6 +384,8 @@ window.onload = function () {
 
     //마우스 화면 밖으로 나가면
     canvas.addEventListener('mouseout', function (e) {
+        // cancelAnimationFrame(animation);
+        // running = false;
         location.reload();
     });
 
