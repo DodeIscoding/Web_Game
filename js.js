@@ -379,7 +379,7 @@ window.onload = function () {
             cancelAnimationFrame(animation);
             location.reload();
         }
-     }, 500);
+     }, 1000);
 
     //초기화 함수
     function clear() {
