@@ -13,18 +13,40 @@ window.onload = function () {
     let boxs_xy2 = [] //왼쪽 아래에서 나오는 박스들 
     let boxs_xy4 = [] //왼쪽 위에서 나오는 박스들 
     let boxs_xy5 = [] //플레이어을 향해서 나오는 박스들 
-    let mouse_x = 0;
-    let mouse_y = 0;
+    let mouse_x = false;
+    let mouse_y;
     let animation;
     let collsion = false;
-    //난이도 결정해주는 변수 3,4,5,6,7,8,9
-    var difficulty = Math.floor((Math.random() * (40 - 30))) + 30;
+
+    //게임이 실행중인지 알려주는 변수
     var running = true;
 
     // canvas 가로 및 세로의 반값 > 150
     let canvas_width = canvas.width = window.innerWidth
     let canvas_height = canvas.height = window.innerHeight - 5
+    let window_width;
+    let window_height;
+    //크기 변화 감지해주는 함수
+    window.onresize = function () {
+        window_width = window.innerWidth;
+        window_height = window.innerHeight;
+        if(window_width != canvas_width || window_height != canvas_height){
+            alert("부정행위 금지")
+            location.reload();
+        }
+    }
 
+    //난이도 결정해주는 변수 30 ~ 39
+    var difficulty = Math.floor((Math.random() * (40 - 30))) + 30;
+    console.log(difficulty)
+    if (canvas_width > 2000) {
+        difficulty = Math.floor((Math.random() * (30 - 20))) + 20;
+        console.log(difficulty)
+    }
+    if (canvas_width > 3000) {
+        difficulty = Math.floor((Math.random() * (20 - 12))) + 12;
+        console.log(difficulty)
+    }
     //아래에서 나오는 박스에 대한 위치 및 스타일 함수
     class box_y {
         constructor() {
@@ -43,8 +65,8 @@ window.onload = function () {
         constructor() {
             this.x = canvas_width;
             this.y = Math.floor((Math.random() * canvas_height)) + 1
-            this.width = 50;
-            this.height = 50;
+            this.width = 50
+            this.height = 50
         }
         draw() {
             ctx.fillStyle = "red"
@@ -116,8 +138,8 @@ window.onload = function () {
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
     }
-   
-    
+
+
     //마우스와 오른쪽에서 나오는 박스 충돌 감지해주는 함수
     function Collision_x(box_x) {
         if
@@ -133,7 +155,6 @@ window.onload = function () {
         if (collsion) {
             running = false;
             cancelAnimationFrame(animation);
-            console.log("살아남은 시간 :" + Game_timer + "초")
             console.log("끝")
         }
     }
@@ -152,7 +173,6 @@ window.onload = function () {
         if (collsion) {
             running = false;
             cancelAnimationFrame(animation);
-            console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
         }
     }
@@ -171,7 +191,6 @@ window.onload = function () {
         if (collsion) {
             running = false;
             cancelAnimationFrame(animation);
-            console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
         }
     }
@@ -190,7 +209,6 @@ window.onload = function () {
         if (collsion) {
             running = false;
             cancelAnimationFrame(animation);
-            console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
         }
     }
@@ -209,7 +227,6 @@ window.onload = function () {
         if (collsion) {
             running = false;
             cancelAnimationFrame(animation);
-            console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
         }
     }
@@ -228,7 +245,6 @@ window.onload = function () {
         if (collsion) {
             running = false;
             cancelAnimationFrame(animation);
-            console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
         }
     }
@@ -247,12 +263,13 @@ window.onload = function () {
         if (collsion) {
             running = false;
             cancelAnimationFrame(animation);
-            console.log("살아남은 시간 :" + Game_timer+ "초")
             console.log("끝")
         }
     }
     //박스들이 움직이는 애니메이션 함수
     function Frameanimation() {
+
+
         animation = requestAnimationFrame(Frameanimation)
         timer++;
         Game_timer++;
@@ -327,7 +344,7 @@ window.onload = function () {
             object.draw()
         })
         //왼쪽 위 대각선에서 박스가 나옴
-         boxs_xy4.forEach((object, index, array) => {
+        boxs_xy4.forEach((object, index, array) => {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
@@ -351,13 +368,12 @@ window.onload = function () {
 
     window.addEventListener("keydown", e => {
         const key = e.keyCode;
-        if(!running){
-
-            if(key == 82){
+        if (!running) {
+            if (key == 82) {
                 location.reload();
             }
         }
-      });
+    });
 
     //마우스 위치 함수
     canvas.addEventListener('mousemove', function (e) {
@@ -367,24 +383,24 @@ window.onload = function () {
 
 
     //마우스 화면 밖으로 나가면
-    canvas.addEventListener('mouseout', function(e) {
-        cancelAnimationFrame(animation);
-        running = false;
-      });
-    
-    //부정행위 금지 함수
+    canvas.addEventListener('mouseout', function (e) {
+        location.reload();
+    });
+
+    // 부정행위 금지 함수
     setTimeout(function() { 
-        if(mouse_x == 0){
+        if(!mouse_x){
             alert("부정행위 금지")
             cancelAnimationFrame(animation);
             location.reload();
         }
-     }, 1000);
+     }, 5000);
 
     //초기화 함수
     function clear() {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
+
 }
 
