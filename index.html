@@ -7,14 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./js.js"></script>
     <link rel="stylesheet" href="game_css.css">
-    </>
     <title>랜덤 난이도 박스 피하기</title>
 </head>
 
 <body>
     <canvas id="canvas" style="background-color: rgb(255, 255, 255);"></canvas>
     <div class="modal">
-        <div class="modal_body">Modal</div>
+        <div class="modal_body">
+            <p>랜덤 난이도 박스 피하기 version 0.1</p>
+            <p>난이도는 1 ~ 10단계까지 있고 랜덤입니다.</p>
+            <p>플레이하신 난이도는 끝나고 알려드립니다.</p>
+            <p>랭킹은 만들고 있는 중입니다.</p>
+            <p>문의 및 피드백은 갠톡으로 주세요.</p>
+            <p>아래 주의사항을 읽어주세요.</p>
+            <p>1) 게임시작 후 마우스를 한번이라도 움직여주세요.</p>
+            <p>2) 마우스가 화면 밖으로 나가면 홈페이지가 새로고침 됩니다.</p>
+            <p>3) 컨트롤 + 휠을 통한 화면 축소 및 확대는 부정행위입니다.</p>
+            <p>구인공고) 가끔식 css 작업해주실 분 구합니다.</p>
+            <button onclick="game_start()">게임 플레이</button>
+        </div>
+    </div>
+    <div id="modal_1" class="modal_1">
+        <div class="modal_body_1">
+            <p>랜덤 난이도 박스 피하기 version 0.1</p>
+            <p id="difficulty"></p>
+            <p>축하드립니다!!!</p>
+            <p id="game_time"></p>
+            <button onclick="game_start()">다시 플레이</button>
+        </div>
     </div>
 </body>
 
