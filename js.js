@@ -454,7 +454,7 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.y += 15;
+            object.y += 7;
             Collision_xy6(object)
             object.draw()
         })
