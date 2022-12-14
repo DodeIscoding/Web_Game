@@ -68,18 +68,21 @@ function game_start() {
 
     //크기 변화 감지해주는 함수
     window.onresize = function () {
-        window_width = window.innerWidth;
-        window_height = window.innerHeight;
-        if (window_width != canvas_width || window_height != canvas_height) {
-            alert("부정행위 금지")
-            location.reload();
+        if(running){
+            window_width = window.innerWidth;
+            window_height = window.innerHeight;
+            if (window_width != canvas_width || window_height != canvas_height) {
+                alert("부정행위 금지")
+                location.reload();
+            }
         }
     }
     //난이도 결정해주는 변수 40 ~ 50
     //숫자가 적으면 적을수록 박스가 많이 나옴    
     //어려워지는 이유 가로 크기가 더 넓어지면 피할 곳이 많아지기 때문에 
     //더 많이 나오게끔으로 밸런스 잡음
-    var difficulty = Math.floor((Math.random() * (50 - 40))) + 40;
+    var difficulty = Math.floor((Math.random() * (50 - 40))) + 40
+    console.log(difficulty)
     difficulty_msg.innerText = "난이도는 " + (Math.abs(difficulty - 50)) + " 단계였습니다.";
     if (difficulty == 50) {
         difficulty_msg.innerText = "난이도는 1단계였습니다.";
@@ -375,7 +378,7 @@ function game_start() {
             boxs_xy4.push(box_xyNew4) //왼쪽 위 박스
         }
         //플레이어를 향해서 날라오는 박스가 나오는 시간
-        if (timer % 30 === 0) {
+        if (timer % (100 - difficulty) === 0) {
             let box_xyNew5 = new box_xy5 //오른쪽 박스가 플레이어 향하는 박스
             boxs_xy5.push(box_xyNew5) //오른쪽 박스가플레이어 향하는 박스
 
