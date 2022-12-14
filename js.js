@@ -251,13 +251,13 @@ function game_start() {
     function Collision_xy1(box_xy1) {
         if
             (
-            ((box_xy1.x <= mouse_x && mouse_x <= box_xy1.x + 50)
+            ((box_xy1.x <= mouse_x && mouse_x <= box_xy1.x + 45)
                 ||
-                (box_xy1.x <= mouse_x && mouse_x <= box_xy1.x + 50))
+                (box_xy1.x <= mouse_x && mouse_x <= box_xy1.x + 45))
             &&
-            ((box_xy1.y <= mouse_y && mouse_y <= box_xy1.y + 50)
+            ((box_xy1.y <= mouse_y && mouse_y <= box_xy1.y + 45)
                 ||
-                (box_xy1.y <= mouse_y && mouse_y <= box_xy1.y + 50))
+                (box_xy1.y <= mouse_y && mouse_y <= box_xy1.y + 45))
         ) { collsion = true; }
         if (collsion) {
             running = false;
@@ -269,13 +269,13 @@ function game_start() {
     function Collision_xy3(box_xy3) {
         if
             (
-            ((box_xy3.x <= mouse_x && mouse_x <= box_xy3.x + 50)
+            ((box_xy3.x <= mouse_x && mouse_x <= box_xy3.x + 45)
                 ||
-                (box_xy3.x <= mouse_x && mouse_x <= box_xy3.x + 50))
+                (box_xy3.x <= mouse_x && mouse_x <= box_xy3.x + 45))
             &&
-            ((box_xy3.y <= mouse_y && mouse_y <= box_xy3.y + 50)
+            ((box_xy3.y <= mouse_y && mouse_y <= box_xy3.y + 45)
                 ||
-                (box_xy3.y <= mouse_y && mouse_y <= box_xy3.y + 50))
+                (box_xy3.y <= mouse_y && mouse_y <= box_xy3.y + 45))
         ) { collsion = true; }
         if (collsion) {
             running = false;
@@ -287,13 +287,13 @@ function game_start() {
     function Collision_xy2(box_xy2) {
         if
             (
-            ((box_xy2.x <= mouse_x && mouse_x <= box_xy2.x + 50)
+            ((box_xy2.x <= mouse_x && mouse_x <= box_xy2.x + 45)
                 ||
-                (box_xy2.x <= mouse_x && mouse_x <= box_xy2.x + 50))
+                (box_xy2.x <= mouse_x && mouse_x <= box_xy2.x + 45))
             &&
-            ((box_xy2.y <= mouse_y && mouse_y <= box_xy2.y + 50)
+            ((box_xy2.y <= mouse_y && mouse_y <= box_xy2.y + 45)
                 ||
-                (box_xy2.y <= mouse_y && mouse_y <= box_xy2.y + 50))
+                (box_xy2.y <= mouse_y && mouse_y <= box_xy2.y + 45))
         ) { collsion = true; }
         if (collsion) {
             running = false;
@@ -305,13 +305,13 @@ function game_start() {
     function Collision_xy4(box_xy4) {
         if
             (
-            ((box_xy4.x <= mouse_x && mouse_x <= box_xy4.x + 50)
+            ((box_xy4.x <= mouse_x && mouse_x <= box_xy4.x + 45)
                 ||
-                (box_xy4.x <= mouse_x && mouse_x <= box_xy4.x + 50))
+                (box_xy4.x <= mouse_x && mouse_x <= box_xy4.x + 45))
             &&
-            ((box_xy4.y <= mouse_y && mouse_y <= box_xy4.y + 50)
+            ((box_xy4.y <= mouse_y && mouse_y <= box_xy4.y + 45)
                 ||
-                (box_xy4.y <= mouse_y && mouse_y <= box_xy4.y + 50))
+                (box_xy4.y <= mouse_y && mouse_y <= box_xy4.y + 45))
         ) { collsion = true; }
         if (collsion) {
             running = false;
