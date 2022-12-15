@@ -1,7 +1,29 @@
 //게임이 실행중인지 알려주는 변수
 var running = false;
 
+//처음 들어오면 화면 FHD로 고정
+window.onload = function () {
+    window.focus();
+    window.moveTo(0, 0)
+    window.resizeTo(1920, 1080)
+}
+// //크기 변화 감지해주는 함수
+// window.onresize = function () {
+//     window_width = window.innerWidth;
+//     window_height = window.innerHeight;
+//     if (window_width != 1920 || window_height != 1080) {
+//         alert("화면 축소 및 확대 금지")
+//         location.reload();
+//     }
+// }
 function game_start() {
+    //화면 크기가 FHD(1920이 아닐 경우)다시 로드
+    if(!running){
+        if(window.innerWidth != 1920){
+            location.reload();
+        }
+    }
+    console.log(window.innerWidth)
     let canvas = document.getElementById("canvas")
     let ctx = canvas.getContext("2d");
     let timer = 0
@@ -28,9 +50,8 @@ function game_start() {
     //시간 변수
     let second = 0;
     let minute = 0;
-
     //시간 계산 함수
-    const second_plus = setInterval(function() {
+    const second_plus = setInterval(function () {
         if (running) {
             second++;
             if (second % 60 === 0) {
@@ -40,11 +61,11 @@ function game_start() {
         } else {
             clearInterval(second_plus);
         }
-    },1000)
+    }, 1000)
 
     //게임 끝난 뒤 시간 알려주기
-    function time_msg(){
-        game_time.innerText = "총 버티신 시간은 "+ minute +"분 "+ second+"초입니다."
+    function time_msg() {
+        game_time.innerText = "총 버티신 시간은 " + minute + "분 " + second + "초입니다."
     }
 
     //모달창 제어 함수
@@ -69,52 +90,22 @@ function game_start() {
     }
     modal_1_display()
 
-    //크기 변화 감지해주는 함수
-    window.onresize = function () {
-        if(running){
-            window_width = window.innerWidth;
-            window_height = window.innerHeight;
-            if (window_width != canvas_width || window_height != canvas_height) {
-                alert("부정행위 금지")
-                location.reload();
-            }
-        }
-    }
+
     //끝나고 화면 크기 알려주는 함수 
     function width_msg() {
-        document.getElementById("play_width").innerText = "플레이하신 가로 화면 크기는 "+ canvas_width +" 입니다."
+        document.getElementById("play_width").innerText = "플레이하신 가로 화면 크기는 " + canvas_width + " 입니다."
     }
     //숫자가 적으면 적을수록 박스가 많이 나옴    
     //어려워지는 이유 가로,세로가 더 넓어지면 피할 곳이 많아지기 때문에 더 많이 나오게끔으로 밸런스 잡음
     //해상도에 따른 난이도 변경 변수들
-    let random_difficulty = Math.floor((Math.random() * 10)) 
-    //기본값(가로 크기 1000)
-    let difficulty = [100,90,80,70,60,50,40,30,20,10] // 난이도 100 ~ 10
+    let random_difficulty = Math.floor((Math.random() * 10))
+    //기본값
+    let difficulty = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10] // 난이도 100 ~ 10
     let difficultys = difficulty[random_difficulty] //난이도 뽑아주는 변수
     let difficultys_msg = difficultys / 100 // 난이도 몇단계인지 알려주는 변수
-    //가로 크기가 2000일 경우 박스 속도가 증가함
-    let width_2000_boxspeed_x;
-    let width_2000_boxspeed_y;
-    function width_2000_boxspeed() {
-        width_2000_boxspeed_x = Math.floor((Math.random() * (20 - 15))) + 15;
-        width_2000_boxspeed_y = Math.floor((Math.random() * (15 - 10))) + 10;
-    }
-    if(canvas_width > 2000){
-        //박스 속도 계속 랜덤 돌리게 해주는 코드
-        const random_box_speed = setInterval(function() {
-            if (running) {
-                width_2000_boxspeed()
-            } else {
-                clearInterval(random_box_speed);
-            }
-        },1000)
-    }
-    // //가로 크기가 3000일 경우 박스 속도가 증가함
-    // let width_3000_boxspeed  = Math.floor((Math.random() * (30 - 20))) + 20;
-
     if (difficultys == 100) {
         difficulty_msg.innerText = "난이도는 1단계였습니다.";
-    }else{
+    } else {
         difficulty_msg.innerText = "난이도는 " + (difficultys_msg * 10) + " 단계였습니다.";
     }
 
@@ -402,11 +393,8 @@ function game_start() {
             if (object.x < 0) {
                 array.splice(index, 1);
             }
-            if(canvas_width > 2000){
-                object.x -= width_2000_boxspeed_x;
-            }else{
-                object.x -= 10;
-            }
+
+            object.x -= 10;
             Collision_x(object)
             object.draw()
         })
@@ -415,11 +403,7 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            if(canvas_width > 2000){
-                object.x += width_2000_boxspeed_x;
-            }else{
-                object.x += 10;
-            }
+            object.x += 10;
             Collision_y(object)
             object.draw()
         })
@@ -428,13 +412,8 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            if(canvas_width > 2000){
-                object.y -= width_2000_boxspeed_y;
-                object.x -= width_2000_boxspeed_x;
-            }else{
-                object.y -= 5;
-                object.x -= 10;
-            }
+            object.y -= 5;
+            object.x -= 10;
             Collision_xy1(object)
             object.draw()
         })
@@ -443,13 +422,8 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            if(canvas_width > 2000){
-                object.y += width_2000_boxspeed_y;
-                object.x -= width_2000_boxspeed_x;
-            }else{
-                object.y += 5;
-                object.x -= 10;
-            }
+            object.y += 5;
+            object.x -= 10;
             Collision_xy3(object)
             object.draw()
         })
@@ -458,13 +432,8 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            if(canvas_width > 2000){
-                object.y -= width_2000_boxspeed_y;
-                object.x += width_2000_boxspeed_x;
-            }else{
-                object.y -= 5;
-                object.x += 10;
-            }
+            object.y -= 5;
+            object.x += 10;
             Collision_xy2(object)
             object.draw()
         })
@@ -473,14 +442,8 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            if(canvas_width > 2000){
-                object.y += width_2000_boxspeed_y;
-                object.x += width_2000_boxspeed_x;
-            }else{
-                object.y += 5
-                object.x += 10;
-            }
-
+            object.y += 5
+            object.x += 10;
             Collision_xy4(object)
             object.draw()
         })
@@ -507,6 +470,7 @@ function game_start() {
     }
     Frameanimation()
 
+
     window.addEventListener("keydown", e => {
         const key = e.keyCode;
         if (!running) {
@@ -521,6 +485,25 @@ function game_start() {
         mouse_x = e.clientX
         mouse_y = e.clientY
     });
+    window.addEventListener("keydown", e => {
+        const key = e.keyCode;
+        console.log(key)
+        if (running) {
+            if (key == 17) {
+                location.reload();
+            }
+        }
+    });
+    window.addEventListener("keyup", e => {
+        const key = e.keyCode;
+        console.log(key)
+        if (running) {
+            if (key == 17) {
+                location.reload();
+            }
+        }
+    });
+
 
 
     //마우스 화면 밖으로 나가면
@@ -533,6 +516,7 @@ function game_start() {
     //마우스 있는지 없는지 확인해주는 함수
     setTimeout(function () {
         if (!mouse_x) {
+            alert("마우스 위치를 못찾겠어요 ㅠㅠ")
             cancelAnimationFrame(animation);
             running = false;
         }
