@@ -41,6 +41,7 @@ function game_start() {
             clearInterval(second_plus);
         }
     },1000)
+
     //게임 끝난 뒤 시간 알려주기
     function time_msg(){
         game_time.innerText = "총 버티신 시간은 "+ minute +"분 "+ second+"초입니다."
@@ -50,6 +51,7 @@ function game_start() {
     if (running) {
         document.querySelector(".modal").classList.add("display_none")
     }
+
     //게임 끝나고 나오는 모달창 제어 함수
     function modal_display() {
         if (!running) {
@@ -58,6 +60,7 @@ function game_start() {
             width_msg()
         }
     }
+
     //게임 재시작할 때 모달창 제어 함수
     function modal_1_display() {
         if (running) {
@@ -81,40 +84,39 @@ function game_start() {
     function width_msg() {
         document.getElementById("play_width").innerText = "플레이하신 가로 화면 크기는 "+ canvas_width +" 입니다."
     }
-    //난이도 결정해주는 변수 100 ~ 10
     //숫자가 적으면 적을수록 박스가 많이 나옴    
     //어려워지는 이유 가로,세로가 더 넓어지면 피할 곳이 많아지기 때문에 더 많이 나오게끔으로 밸런스 잡음
     //해상도에 따른 난이도 변경 변수들
     let random_difficulty = Math.floor((Math.random() * 10)) 
-    //가로 크기가 1000일 경우
-    let width_1000_difficulty = [100,90,80,70,60,50,40,30,20,10]
-    let width_1000_difficultys = width_1000_difficulty[random_difficulty] 
-    let game_width_1000_difficulty_msg = width_1000_difficultys / 100
-    console.log(game_width_1000_difficulty_msg)
-    //가로 크기가 2000일 경우
-    let width_2000_boxspeed = Math.floor((Math.random() * (20 - 10))) + 10;
-    //가로 크기가 3000일 경우 
-    let width_3000_boxspeed  = Math.floor((Math.random() * (20 - 10))) + 10;
-
-    difficulty_msg.innerText = "난이도는 " + (game_width_1000_difficulty_msg * 10) + " 단계였습니다.";
-    if (game_width_1000_difficulty_msg == 0.1) {
-        difficulty_msg.innerText = "난이도는 10단계였습니다.";
+    //기본값(가로 크기 1000)
+    let difficulty = [100,90,80,70,60,50,40,30,20,10] // 난이도 100 ~ 10
+    let difficultys = difficulty[random_difficulty] //난이도 뽑아주는 변수
+    let difficultys_msg = difficultys / 100 // 난이도 몇단계인지 알려주는 변수
+    //가로 크기가 2000일 경우 박스 속도가 증가함
+    let width_2000_boxspeed_x;
+    let width_2000_boxspeed_y;
+    function width_2000_boxspeed() {
+        width_2000_boxspeed_x = Math.floor((Math.random() * (20 - 15))) + 15;
+        width_2000_boxspeed_y = Math.floor((Math.random() * (15 - 10))) + 10;
     }
-    // //가로 크기가 2000 이상이면 더 어려워짐 30 ~ 20
-    // if (canvas_width > 2000) {
-    //     difficulty_msg.innerText = "난이도는 " + Math.abs(width_2000_difficulty - 30) + " 단계였습니다.";
-    //     if (difficulty == 30) {
-    //         difficulty_msg.innerText = "난이도는 1단계였습니다.";
-    //     }
-    // }
-    // //가로 크기가 3000 이상이면 더 어려워짐 20 ~ 12
-    // if (canvas_width > 3000) {  
-    //     difficulty_msg.innerText = "난이도는 " + Math.abs(width_3000_difficulty - 20) + " 단계였습니다.";
-    //     if (difficulty == 20) {
-    //         difficulty_msg.innerText = "난이도는 1단계였습니다.";
-    //     }
-    // }
+    if(canvas_width > 2000){
+        //박스 속도 계속 랜덤 돌리게 해주는 코드
+        const random_box_speed = setInterval(function() {
+            if (running) {
+                width_2000_boxspeed()
+            } else {
+                clearInterval(random_box_speed);
+            }
+        },1000)
+    }
+    // //가로 크기가 3000일 경우 박스 속도가 증가함
+    // let width_3000_boxspeed  = Math.floor((Math.random() * (30 - 20))) + 20;
 
+    if (difficultys == 100) {
+        difficulty_msg.innerText = "난이도는 1단계였습니다.";
+    }else{
+        difficulty_msg.innerText = "난이도는 " + (difficultys_msg * 10) + " 단계였습니다.";
+    }
 
     //왼쪽에서 나오는 박스에 대한 위치 및 스타일 함수
     class box_y {
@@ -372,8 +374,7 @@ function game_start() {
         animation = requestAnimationFrame(Frameanimation)
         timer++;
         clear()
-        //여기 있는 숫자가 적으면 적을수록 박스가 많이 나옴
-        if (timer % width_1000_difficultys === 0) {
+        if (timer % difficultys === 0) {
             let box_xNew = new box_x //오른쪽 박스
             let box_yNew = new box_y //왼쪽 박스
             let box_xyNew1 = new box_xy1 //오른쪽 아래 박스
@@ -401,7 +402,11 @@ function game_start() {
             if (object.x < 0) {
                 array.splice(index, 1);
             }
-            object.x -= 10
+            if(canvas_width > 2000){
+                object.x -= width_2000_boxspeed_x;
+            }else{
+                object.x -= 10;
+            }
             Collision_x(object)
             object.draw()
         })
@@ -410,7 +415,11 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.x += 10;
+            if(canvas_width > 2000){
+                object.x += width_2000_boxspeed_x;
+            }else{
+                object.x += 10;
+            }
             Collision_y(object)
             object.draw()
         })
@@ -419,8 +428,13 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.y -= 5;
-            object.x -= 10;
+            if(canvas_width > 2000){
+                object.y -= width_2000_boxspeed_y;
+                object.x -= width_2000_boxspeed_x;
+            }else{
+                object.y -= 5;
+                object.x -= 10;
+            }
             Collision_xy1(object)
             object.draw()
         })
@@ -429,8 +443,13 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.y += 5;
-            object.x -= 10;
+            if(canvas_width > 2000){
+                object.y += width_2000_boxspeed_y;
+                object.x -= width_2000_boxspeed_x;
+            }else{
+                object.y += 5;
+                object.x -= 10;
+            }
             Collision_xy3(object)
             object.draw()
         })
@@ -439,8 +458,13 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.y -= 5;
-            object.x += 10;
+            if(canvas_width > 2000){
+                object.y -= width_2000_boxspeed_y;
+                object.x += width_2000_boxspeed_x;
+            }else{
+                object.y -= 5;
+                object.x += 10;
+            }
             Collision_xy2(object)
             object.draw()
         })
@@ -449,11 +473,19 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.y += 5
-            object.x += 10;
+            if(canvas_width > 2000){
+                object.y += width_2000_boxspeed_y;
+                object.x += width_2000_boxspeed_x;
+            }else{
+                object.y += 5
+                object.x += 10;
+            }
+
             Collision_xy4(object)
             object.draw()
         })
+
+        //플레이어를 향해서 오는 박스들 
         //오른쪽에서 플레이어을 향해 박스가 옴
         boxs_xy5.forEach((object, index, array) => {
             if (object.y < 0) {
