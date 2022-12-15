@@ -2,7 +2,6 @@
 var running = false;
 
 function game_start() {
-
     let canvas = document.getElementById("canvas")
     let ctx = canvas.getContext("2d");
     let timer = 0
@@ -22,14 +21,14 @@ function game_start() {
     // canvas 가로 및 세로의 반값 > 150
     let canvas_width = canvas.width = window.innerWidth
     let canvas_height = canvas.height = window.innerHeight - 5
-    let window_width;
-    let window_height;
+
     //게임 안내메시지
     let difficulty_msg = document.getElementById("difficulty")
     let game_time = document.getElementById("game_time")
     //시간 변수
     let second = 0;
     let minute = 0;
+
     //시간 계산 함수
     const second_plus = setInterval(function() {
         if (running) {
@@ -56,6 +55,7 @@ function game_start() {
         if (!running) {
             document.getElementById("modal_1").style.display = "block"
             time_msg()
+            width_msg()
         }
     }
     //게임 재시작할 때 모달창 제어 함수
@@ -77,32 +77,43 @@ function game_start() {
             }
         }
     }
-    //난이도 결정해주는 변수 40 ~ 50
+    //끝나고 화면 크기 알려주는 함수 
+    function width_msg() {
+        document.getElementById("play_width").innerText = "플레이하신 가로 화면 크기는 "+ canvas_width +" 입니다."
+    }
+    //난이도 결정해주는 변수 100 ~ 10
     //숫자가 적으면 적을수록 박스가 많이 나옴    
-    //어려워지는 이유 가로 크기가 더 넓어지면 피할 곳이 많아지기 때문에 
-    //더 많이 나오게끔으로 밸런스 잡음
-    var difficulty = Math.floor((Math.random() * (50 - 40))) + 40
-    console.log(difficulty)
-    difficulty_msg.innerText = "난이도는 " + (Math.abs(difficulty - 50)) + " 단계였습니다.";
-    if (difficulty == 50) {
-        difficulty_msg.innerText = "난이도는 1단계였습니다.";
+    //어려워지는 이유 가로,세로가 더 넓어지면 피할 곳이 많아지기 때문에 더 많이 나오게끔으로 밸런스 잡음
+    //해상도에 따른 난이도 변경 변수들
+    let random_difficulty = Math.floor((Math.random() * 10)) 
+    //가로 크기가 1000일 경우
+    let width_1000_difficulty = [100,90,80,70,60,50,40,30,20,10]
+    let width_1000_difficultys = width_1000_difficulty[random_difficulty] 
+    let game_width_1000_difficulty_msg = width_1000_difficultys / 100
+    console.log(game_width_1000_difficulty_msg)
+    //가로 크기가 2000일 경우
+    let width_2000_boxspeed = Math.floor((Math.random() * (20 - 10))) + 10;
+    //가로 크기가 3000일 경우 
+    let width_3000_boxspeed  = Math.floor((Math.random() * (20 - 10))) + 10;
+
+    difficulty_msg.innerText = "난이도는 " + (game_width_1000_difficulty_msg * 10) + " 단계였습니다.";
+    if (game_width_1000_difficulty_msg == 0.1) {
+        difficulty_msg.innerText = "난이도는 10단계였습니다.";
     }
-    //가로 크기가 2000 이상이면 더 어려워짐 30 ~ 20
-    if (canvas_width > 2000) {
-        difficulty = Math.floor((Math.random() * (30 - 20))) + 20;
-        difficulty_msg.innerText = "난이도는 " + (Math.abs(difficulty - 20)) + " 단계였습니다.";
-        if (difficulty == 30) {
-            difficulty_msg.innerText = "난이도는 1단계였습니다.";
-        }
-    }
-    //가로 크기가 3000 이상이면 더 어려워짐 20 ~ 12
-    if (canvas_width > 3000) {
-        difficulty = Math.floor((Math.random() * (20 - 10))) + 10;
-        difficulty_msg.innerText = "난이도는 " + (Math.abs(difficulty - 10)) + " 단계였습니다.";
-        if (difficulty == 20) {
-            difficulty_msg.innerText = "난이도는 1단계였습니다.";
-        }
-    }
+    // //가로 크기가 2000 이상이면 더 어려워짐 30 ~ 20
+    // if (canvas_width > 2000) {
+    //     difficulty_msg.innerText = "난이도는 " + Math.abs(width_2000_difficulty - 30) + " 단계였습니다.";
+    //     if (difficulty == 30) {
+    //         difficulty_msg.innerText = "난이도는 1단계였습니다.";
+    //     }
+    // }
+    // //가로 크기가 3000 이상이면 더 어려워짐 20 ~ 12
+    // if (canvas_width > 3000) {  
+    //     difficulty_msg.innerText = "난이도는 " + Math.abs(width_3000_difficulty - 20) + " 단계였습니다.";
+    //     if (difficulty == 20) {
+    //         difficulty_msg.innerText = "난이도는 1단계였습니다.";
+    //     }
+    // }
 
 
     //왼쪽에서 나오는 박스에 대한 위치 및 스타일 함수
@@ -362,7 +373,7 @@ function game_start() {
         timer++;
         clear()
         //여기 있는 숫자가 적으면 적을수록 박스가 많이 나옴
-        if (timer % difficulty === 0) {
+        if (timer % width_1000_difficultys === 0) {
             let box_xNew = new box_x //오른쪽 박스
             let box_yNew = new box_y //왼쪽 박스
             let box_xyNew1 = new box_xy1 //오른쪽 아래 박스
@@ -378,7 +389,7 @@ function game_start() {
             boxs_xy4.push(box_xyNew4) //왼쪽 위 박스
         }
         //플레이어를 향해서 날라오는 박스가 나오는 시간
-        if (timer % (100 - difficulty) === 0) {
+        if (timer % 50 === 0) {
             let box_xyNew5 = new box_xy5 //오른쪽 박스가 플레이어 향하는 박스
             boxs_xy5.push(box_xyNew5) //오른쪽 박스가플레이어 향하는 박스
 
