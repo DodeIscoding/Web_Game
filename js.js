@@ -2,11 +2,11 @@
 var running = false;
 
 //처음 들어오면 화면 FHD로 고정
-window.onload = function () {
-    window.focus();
-    window.moveTo(0, 0)
-    window.resizeTo(1920, 1080)
-}
+// window.onload = function () {
+//     window.focus();
+//     window.moveTo(0, 0)
+//     window.resizeTo(1920, 1080)
+// }
 // //크기 변화 감지해주는 함수
 // window.onresize = function () {
 //     window_width = window.innerWidth;
@@ -16,7 +16,7 @@ window.onload = function () {
 //         location.reload();
 //     }
 // }
-// function game_start() {
+function game_start() {
 //     //화면 크기가 FHD(1920이 아닐 경우)다시 로드
 //     if(!running){
 //         if(window.innerWidth < 2000){
@@ -102,13 +102,28 @@ window.onload = function () {
     //기본값
     let difficulty = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10] // 난이도 100 ~ 10
     let difficultys = difficulty[random_difficulty] //난이도 뽑아주는 변수
-    let difficultys_msg = difficultys / 100 // 난이도 몇단계인지 알려주는 변수
+    console.log(difficultys)
     if (difficultys == 100) {
         difficulty_msg.innerText = "난이도는 1단계였습니다.";
-    } else {
-        difficulty_msg.innerText = "난이도는 " + (difficultys_msg * 10) + " 단계였습니다.";
+    }  if (difficultys == 90){
+        difficulty_msg.innerText = "난이도는 2단계였습니다.";        
+    }  if (difficultys == 80){
+        difficulty_msg.innerText = "난이도는 3단계였습니다.";        
+    }  if (difficultys == 70){
+        difficulty_msg.innerText = "난이도는 4단계였습니다.";        
+    }  if (difficultys == 60){
+        difficulty_msg.innerText = "난이도는 5단계였습니다.";        
+    }  if (difficultys == 50){
+        difficulty_msg.innerText = "난이도는 6단계였습니다.";        
+    }  if (difficultys == 40){
+        difficulty_msg.innerText = "난이도는 7단계였습니다.";        
+    }  if (difficultys == 30){
+        difficulty_msg.innerText = "난이도는 8단계였습니다.";        
+    }  if (difficultys == 20){
+        difficulty_msg.innerText = "난이도는 9단계였습니다.";        
+    }  if (difficultys == 10) {
+        difficulty_msg.innerText = "난이도는 10단계였습니다.";  
     }
-
     //왼쪽에서 나오는 박스에 대한 위치 및 스타일 함수
     class box_y {
         constructor() {
@@ -486,8 +501,7 @@ window.onload = function () {
         mouse_y = e.clientY
     });
     window.addEventListener("keydown", e => {
-        const key = e.keyCode;
-        console.log(key)
+        const key = e.keyCode;  
         if (running) {
             if (key == 17) {
                 location.reload();
@@ -495,8 +509,7 @@ window.onload = function () {
         }
     });
     window.addEventListener("keyup", e => {
-        const key = e.keyCode;
-        console.log(key)
+        const key = e.keyCode;  
         if (running) {
             if (key == 17) {
                 location.reload();
