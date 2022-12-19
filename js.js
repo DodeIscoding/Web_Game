@@ -19,7 +19,7 @@ window.onload = function () {
 function game_start() {
     //화면 크기가 FHD(1920이 아닐 경우)다시 로드
     if(!running){
-        if(window.innerWidth > 2000){
+        if(window.innerWidth < 2000){
             location.reload();
         }
     }
