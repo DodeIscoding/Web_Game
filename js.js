@@ -76,12 +76,12 @@ function game_start() {
         if (running) {
             second++;
             //게임 시작 후 진행중인 난이도 알려주기 
-            document.getElementById("now_dif").innerText = "현재 단계는 : " + time_dif; 
+            document.getElementById("now_dif").innerText = "단계: " + time_dif; 
             //현제 게임 시간 알려주기
             if (minute != 0) {
-                document.getElementById("now_time").innerText = "현재 " + minute + "분 " + second + "초 버티고 있습니다."
+                document.getElementById("now_time").innerText = "생존시간:" + minute + "분 " + second + "초"
             } else {
-                document.getElementById("now_time").innerText = "현재 " + second + "초 버티고 있습니다."
+                document.getElementById("now_time").innerText = "생존시간: " + second + "초"
             }
             if (difficulty <= 30) {
                 if (difficulty <= 15) {
