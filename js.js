@@ -8,23 +8,31 @@ window.onload = function () {
     window.resizeTo(1920, 1080)
 }
 // //크기 변화 감지해주는 함수
-// window.onresize = function () {
-//     window_width = window.innerWidth;
-//     window_height = window.innerHeight;
-//     if (window_width != 1920 || window_height != 1080) {
-//         alert("화면 축소 및 확대 금지")
-//         location.reload();
-//     }
-// }
+window.onresize = function () {
+    window_width = window.innerWidth;
+    window_height = window.innerHeight;
+    if (window_width != 1920 || window_height != 1080) {
+        alert("화면 축소 및 확대 금지")
+        location.reload();
+    }
+}
 
 function game_start() {
-//     //화면 크기가 FHD(1920이 아닐 경우)다시 로드
-    if(!running){
-        if(window.innerWidth > 2000){
+
+    //화면 크기가 FHD(1920이 아닐 경우)다시 로드
+    if (!running) {
+        if (window.innerWidth > 2000) {
             alert("FHD로 해주세요.^^")
             location.reload();
         }
     }
+    if (!running) {
+        if (window.innerWidth < 1900) {
+            alert("FHD로 해주세요.^^")
+            location.reload();
+        }
+    }
+
     let canvas = document.getElementById("canvas")
     let ctx = canvas.getContext("2d");
     let timer = 0
@@ -50,35 +58,39 @@ function game_start() {
     let game_time = document.getElementById("game_time")
 
     //숫자가 적으면 적을수록 박스가 많이 나옴    
-    //어려워지는 이유 가로,세로가 더 넓어지면 피할 곳이 많아지기 때문에 더 많이 나오게끔으로 밸런스 잡음
-    //해상도에 따른 난이도 변경 변수들
     //기본값
     let difficulty = 100 // 난이도 100 ~ 10
 
-    //게임 끝난 뒤 시간 알려주기
+    //게임 끝난 뒤 시간 및 난이도 알려주기
     function time_msg() {
-        difficulty_msg.innerText = "난이도는 "+time_dif+"단계였습니다.";
+        difficulty_msg.innerText = "난이도는 " + time_dif + "단계였습니다.";
         game_time.innerText = "총 버티신 시간은 " + minute + "분 " + second + "초입니다."
     }
     //시간 변수
     let second = 0;
     let minute = 0;
     let time_dif = 1;
+    //게임 시작 후 진행중인 난이도 알려주기 
+    document.getElementById("now_dif").innerText = "현재 단계는 : " + time_dif;
     //시간 계산 함수
     const second_plus = setInterval(function () {
         if (running) {
             second++;
-
-            if(difficulty <= 30){
-                if(difficulty <= 15){
+            //현제 게임 시간 알려주기
+            if (minute != 0) {
+                document.getElementById("now_time").innerText = "현재 " + minute + "분 " + second + "초 버티고 있습니다."
+            } else {
+                document.getElementById("now_time").innerText = "현재 " + second + "초 버티고 있습니다."
+            }
+            if (difficulty <= 30) {
+                if (difficulty <= 15) {
                     console.log("20단계")
-                }else if(second % 50 === 0){
+                } else if (second % 50 === 0) {
                     time_dif++;
-                    difficulty -=3
-                    }
-            }else if (second % 30 === 0) {
+                    difficulty -= 3
+                }
+            } else if (second % 30 === 0) {
                 time_dif++;
-                difficulty -= 5
             }
             //시간 계속 흘러가는거
             if (second % 60 === 0) {
@@ -89,6 +101,7 @@ function game_start() {
             clearInterval(second_plus);
         }
     }, 1000)
+
     //모달창 제어 함수
     if (running) {
         document.querySelector(".modal").classList.add("display_none")
@@ -371,116 +384,116 @@ function game_start() {
             modal_display()
         }
     }
-//박스들이 움직이는 애니메이션 함수
-function Frameanimation() {
-    animation = requestAnimationFrame(Frameanimation)
-    timer++;
-    clear()
-    // 가운데 변수가 난이도 변수
-    if (timer % difficulty === 0) {
-        let box_xNew = new box_x //오른쪽 박스
-        let box_yNew = new box_y //왼쪽 박스
-        let box_xyNew1 = new box_xy1 //오른쪽 아래 박스
-        let box_xyNew3 = new box_xy3 //오른쪽 위 박스
-        let box_xyNew2 = new box_xy2 //왼쪽 아래 박스
-        let box_xyNew4 = new box_xy4 //왼쪽 위 박스
+    //박스들이 움직이는 애니메이션 함수
+    function Frameanimation() {
+        animation = requestAnimationFrame(Frameanimation)
+        timer++;
+        clear()
+        // 가운데 변수가 난이도 변수
+        if (timer % difficulty === 0) {
+            let box_xNew = new box_x //오른쪽 박스
+            let box_yNew = new box_y //왼쪽 박스
+            let box_xyNew1 = new box_xy1 //오른쪽 아래 박스
+            let box_xyNew3 = new box_xy3 //오른쪽 위 박스
+            let box_xyNew2 = new box_xy2 //왼쪽 아래 박스
+            let box_xyNew4 = new box_xy4 //왼쪽 위 박스
 
-        boxs_x.push(box_xNew) //오른쪽 박스
-        boxs_y.push(box_yNew) //왼쪽 박스
-        boxs_xy1.push(box_xyNew1) //오른쪽 아래 박스
-        boxs_xy3.push(box_xyNew3) //오른쪽 위 박스 
-        boxs_xy2.push(box_xyNew2) //왼쪽 아래 박스
-        boxs_xy4.push(box_xyNew4) //왼쪽 위 박스
+            boxs_x.push(box_xNew) //오른쪽 박스
+            boxs_y.push(box_yNew) //왼쪽 박스
+            boxs_xy1.push(box_xyNew1) //오른쪽 아래 박스
+            boxs_xy3.push(box_xyNew3) //오른쪽 위 박스 
+            boxs_xy2.push(box_xyNew2) //왼쪽 아래 박스
+            boxs_xy4.push(box_xyNew4) //왼쪽 위 박스
+        }
+        //플레이어를 향해서 날라오는 박스가 나오는 시간
+        if (timer % 50 === 0) {
+            let box_xyNew5 = new box_xy5 //오른쪽 박스가 플레이어 향하는 박스
+            boxs_xy5.push(box_xyNew5) //오른쪽 박스가플레이어 향하는 박스
+
+            let box_xyNew6 = new box_xy6 //왼쪽 박스가 플레이어 향하는 박스
+            boxs_xy6.push(box_xyNew6) //왼쪽 박스가 플레이어 향하는 박스
+        }
+        // 오른쪽에서 박스가 나옴
+        boxs_x.forEach((object, index, array) => {
+            if (object.x < 0) {
+                array.splice(index, 1);
+            }
+
+            object.x -= 10;
+            Collision_x(object)
+            object.draw()
+        })
+        //왼쪽에서 박스가 나옴  
+        boxs_y.forEach((object, index, array) => {
+            if (object.y < 0) {
+                array.splice(index, 1);
+            }
+            object.x += 10;
+            Collision_y(object)
+            object.draw()
+        })
+        //오른쪽 아래 대각선에서 박스가 나옴
+        boxs_xy1.forEach((object, index, array) => {
+            if (object.y < 0) {
+                array.splice(index, 1);
+            }
+            object.y -= 5;
+            object.x -= 10;
+            Collision_xy1(object)
+            object.draw()
+        })
+        //오른쪽 위 대각선에서 박스가 나옴
+        boxs_xy3.forEach((object, index, array) => {
+            if (object.y < 0) {
+                array.splice(index, 1);
+            }
+            object.y += 5;
+            object.x -= 10;
+            Collision_xy3(object)
+            object.draw()
+        })
+        //왼쪽 아래 대각선에서 박스가 나옴
+        boxs_xy2.forEach((object, index, array) => {
+            if (object.y < 0) {
+                array.splice(index, 1);
+            }
+            object.y -= 5;
+            object.x += 10;
+            Collision_xy2(object)
+            object.draw()
+        })
+        //왼쪽 위 대각선에서 박스가 나옴
+        boxs_xy4.forEach((object, index, array) => {
+            if (object.y < 0) {
+                array.splice(index, 1);
+            }
+            object.y += 5
+            object.x += 10;
+            Collision_xy4(object)
+            object.draw()
+        })
+
+        //플레이어를 향해서 오는 박스들 
+        //오른쪽에서 플레이어을 향해 박스가 옴
+        boxs_xy5.forEach((object, index, array) => {
+            if (object.y < 0) {
+                array.splice(index, 1);
+            }
+            object.x -= 15;
+            Collision_xy5(object)
+            object.draw()
+        })
+        //왼쪽에서 플레이어을 향해 박스가 옴
+        boxs_xy6.forEach((object, index, array) => {
+            if (object.y < 0) {
+                array.splice(index, 1);
+            }
+            object.x += 10;
+            Collision_xy6(object)
+            object.draw()
+        })
     }
-    //플레이어를 향해서 날라오는 박스가 나오는 시간
-    if (timer % 50 === 0) {
-        let box_xyNew5 = new box_xy5 //오른쪽 박스가 플레이어 향하는 박스
-        boxs_xy5.push(box_xyNew5) //오른쪽 박스가플레이어 향하는 박스
 
-        let box_xyNew6 = new box_xy6 //왼쪽 박스가 플레이어 향하는 박스
-        boxs_xy6.push(box_xyNew6) //왼쪽 박스가 플레이어 향하는 박스
-    }
-    // 오른쪽에서 박스가 나옴
-    boxs_x.forEach((object, index, array) => {
-        if (object.x < 0) {
-            array.splice(index, 1);
-        }
-
-        object.x -= 10;
-        Collision_x(object)
-        object.draw()
-    })
-    //왼쪽에서 박스가 나옴  
-    boxs_y.forEach((object, index, array) => {
-        if (object.y < 0) {
-            array.splice(index, 1);
-        }
-        object.x += 10;
-        Collision_y(object)
-        object.draw()
-    })
-    //오른쪽 아래 대각선에서 박스가 나옴
-    boxs_xy1.forEach((object, index, array) => {
-        if (object.y < 0) {
-            array.splice(index, 1);
-        }
-        object.y -= 5;
-        object.x -= 10;
-        Collision_xy1(object)
-        object.draw()
-    })
-    //오른쪽 위 대각선에서 박스가 나옴
-    boxs_xy3.forEach((object, index, array) => {
-        if (object.y < 0) {
-            array.splice(index, 1);
-        }
-        object.y += 5;
-        object.x -= 10;
-        Collision_xy3(object)
-        object.draw()
-    })
-    //왼쪽 아래 대각선에서 박스가 나옴
-    boxs_xy2.forEach((object, index, array) => {
-        if (object.y < 0) {
-            array.splice(index, 1);
-        }
-        object.y -= 5;
-        object.x += 10;
-        Collision_xy2(object)
-        object.draw()
-    })
-    //왼쪽 위 대각선에서 박스가 나옴
-    boxs_xy4.forEach((object, index, array) => {
-        if (object.y < 0) {
-            array.splice(index, 1);
-        }
-        object.y += 5
-        object.x += 10;
-        Collision_xy4(object)
-        object.draw()
-    })
-
-    //플레이어를 향해서 오는 박스들 
-    //오른쪽에서 플레이어을 향해 박스가 옴
-    boxs_xy5.forEach((object, index, array) => {
-        if (object.y < 0) {
-            array.splice(index, 1);
-        }
-        object.x -= 15;
-        Collision_xy5(object)
-        object.draw()
-    })
-    //왼쪽에서 플레이어을 향해 박스가 옴
-    boxs_xy6.forEach((object, index, array) => {
-        if (object.y < 0) {
-            array.splice(index, 1);
-        }
-        object.x += 10;
-        Collision_xy6(object)
-        object.draw()
-    })
-}
-    
     Frameanimation()
 
     //사망 후 R키 누르면 빠른 재시작
@@ -494,7 +507,7 @@ function Frameanimation() {
     });
     //게임 도중 ctrl 키 누르면 재시작
     window.addEventListener("keydown", e => {
-        const key = e.keyCode;  
+        const key = e.keyCode;
         if (running) {
             if (key == 17) {
                 alert("게임 도중에 ctrl키 누르시면 안됩니다.")
@@ -507,20 +520,14 @@ function Frameanimation() {
         mouse_x = e.clientX
         mouse_y = e.clientY
     });
-
-
-
-
-
-
-    //마우스 화면 밖으로 나가면
+    // //마우스 화면 밖으로 나가면
     canvas.addEventListener('mouseout', function (e) {
         cancelAnimationFrame(animation);
         running = false;
         modal_display();
     });
 
-    //마우스 있는지 없는지 확인해주는 함수
+    // //마우스 있는지 없는지 확인해주는 함수
     setTimeout(function () {
         if (!mouse_x) {
             alert("마우스 위치를 못찾겠어요 ㅠㅠ")
