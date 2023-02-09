@@ -70,12 +70,13 @@ function game_start() {
     let second = 0;
     let minute = 0;
     let time_dif = 1;
-    //게임 시작 후 진행중인 난이도 알려주기 
-    document.getElementById("now_dif").innerText = "현재 단계는 : " + time_dif;
+
     //시간 계산 함수
     const second_plus = setInterval(function () {
         if (running) {
             second++;
+            //게임 시작 후 진행중인 난이도 알려주기 
+            document.getElementById("now_dif").innerText = "현재 단계는 : " + time_dif; 
             //현제 게임 시간 알려주기
             if (minute != 0) {
                 document.getElementById("now_time").innerText = "현재 " + minute + "분 " + second + "초 버티고 있습니다."
