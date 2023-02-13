@@ -79,9 +79,9 @@ function game_start() {
             document.getElementById("now_dif").innerText = "단계: " + time_dif; 
             //현제 게임 시간 알려주기
             if (minute != 0) {
-                document.getElementById("now_time").innerText = "생존시간:" + minute + "분 " + second + "초"
+                document.getElementById("now_time").innerText = "생존시간:" + minute + "분 " + second+"초"
             } else {
-                document.getElementById("now_time").innerText = "생존시간: " + second + "초"
+                document.getElementById("now_time").innerText = "생존시간:" + second+"초"
             }
             if (difficulty <= 30) {
                 if (difficulty <= 15) {
@@ -124,13 +124,6 @@ function game_start() {
         }
     }
     modal_1_display()
-
-
-    //끝나고 화면 크기 알려주는 함수 
-    function width_msg() {
-        document.getElementById("play_width").innerText = "플레이하신 가로 화면 크기는 " + canvas_width + " 입니다."
-    }
-
 
     //왼쪽에서 나오는 박스에 대한 위치 및 스타일 함수
     class box_y {
@@ -407,7 +400,7 @@ function game_start() {
             boxs_xy4.push(box_xyNew4) //왼쪽 위 박스
         }
         //플레이어를 향해서 날라오는 박스가 나오는 시간
-        if (timer % 50 === 0) {
+        if (timer % 50 - time_dif  === 0) {
             let box_xyNew5 = new box_xy5 //오른쪽 박스가 플레이어 향하는 박스
             boxs_xy5.push(box_xyNew5) //오른쪽 박스가플레이어 향하는 박스
 
@@ -484,7 +477,7 @@ function game_start() {
             Collision_xy5(object)
             object.draw()
         })
-        //왼쪽에서 플레이어을 향해 박스가 옴
+        //왼쪽에서 플레이어을 향해 박스가 옴    
         boxs_xy6.forEach((object, index, array) => {
             if (object.y < 0) {
                 array.splice(index, 1);
@@ -494,6 +487,8 @@ function game_start() {
             object.draw()
         })
     }
+
+
 
     Frameanimation()
 
