@@ -9,13 +9,16 @@ window.onload = function () {
 }
 // //크기 변화 감지해주는 함수
 window.onresize = function () {
-    window_width = window.innerWidth;
-    window_height = window.innerHeight;
-    if (window_width != 1920 || window_height != 1080) {
-        alert("화면 축소 및 확대 금지")
-        location.reload();
+    if (running) {
+        window_width = window.innerWidth;
+        window_height = window.innerHeight;
+        if (window_width != 1920 || window_height != 1080) {
+            alert("화면 축소 및 확대 금지")
+            location.reload();
+        }
     }
 }
+
 
 function game_start() {
 
@@ -49,6 +52,7 @@ function game_start() {
     let animation;
     let collsion = false;
     running = true;
+
     // canvas 가로 및 세로의 반값 > 150
     let canvas_width = canvas.width = window.innerWidth
     let canvas_height = canvas.height = window.innerHeight - 5
@@ -72,16 +76,17 @@ function game_start() {
     let time_dif = 1;
 
     //시간 계산 함수
+
     const second_plus = setInterval(function () {
         if (running) {
             second++;
             //게임 시작 후 진행중인 난이도 알려주기 
-            document.getElementById("now_dif").innerText = "단계: " + time_dif; 
+            document.getElementById("now_dif").innerText = "단계: " + time_dif;
             //현제 게임 시간 알려주기
             if (minute != 0) {
-                document.getElementById("now_time").innerText = "생존시간:" + minute + "분 " + second+"초"
+                document.getElementById("now_time").innerText = "생존시간:" + minute + "분 " + second + "초"
             } else {
-                document.getElementById("now_time").innerText = "생존시간:" + second+"초"
+                document.getElementById("now_time").innerText = "생존시간:" + second + "초"
             }
             if (difficulty <= 30) {
                 if (difficulty <= 15) {
@@ -103,6 +108,7 @@ function game_start() {
         }
     }, 1000)
 
+
     //모달창 제어 함수
     if (running) {
         document.querySelector(".modal").classList.add("display_none")
@@ -113,7 +119,6 @@ function game_start() {
         if (!running) {
             document.getElementById("modal_1").style.display = "block"
             time_msg()
-            width_msg()
         }
     }
 
@@ -400,7 +405,7 @@ function game_start() {
             boxs_xy4.push(box_xyNew4) //왼쪽 위 박스
         }
         //플레이어를 향해서 날라오는 박스가 나오는 시간
-        if (timer % 50 - time_dif  === 0) {
+        if (timer % 50 - time_dif === 0) {
             let box_xyNew5 = new box_xy5 //오른쪽 박스가 플레이어 향하는 박스
             boxs_xy5.push(box_xyNew5) //오른쪽 박스가플레이어 향하는 박스
 
@@ -413,7 +418,7 @@ function game_start() {
                 array.splice(index, 1);
             }
 
-            object.x -= 10;
+            object.x -= 10 + Math.floor((Math.random() * 3)) + 1;
             Collision_x(object)
             object.draw()
         })
@@ -422,7 +427,7 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.x += 10;
+            object.x += 10 + Math.floor((Math.random() * 3)) + 1;
             Collision_y(object)
             object.draw()
         })
@@ -431,8 +436,8 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.y -= 5;
-            object.x -= 10;
+            object.y -= 5 + Math.floor((Math.random() * 3)) + 1;
+            object.x -= 10 + Math.floor((Math.random() * 3)) + 1;
             Collision_xy1(object)
             object.draw()
         })
@@ -441,8 +446,8 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.y += 5;
-            object.x -= 10;
+            object.y += 5 + Math.floor((Math.random() * 3)) + 1;
+            object.x -= 10 + Math.floor((Math.random() * 3)) + 1;
             Collision_xy3(object)
             object.draw()
         })
@@ -451,8 +456,8 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.y -= 5;
-            object.x += 10;
+            object.y -= 5 + Math.floor((Math.random() * 3)) + 1;
+            object.x += 10 + Math.floor((Math.random() * 3)) + 1;
             Collision_xy2(object)
             object.draw()
         })
@@ -461,8 +466,8 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.y += 5
-            object.x += 10;
+            object.y += 5 + Math.floor((Math.random() * 3)) + 1;
+            object.x += 10 + Math.floor((Math.random() * 3)) + 1;
             Collision_xy4(object)
             object.draw()
         })
@@ -473,7 +478,7 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.x -= 15;
+            object.x -= 15 + Math.floor((Math.random() * 3)) + 1;
             Collision_xy5(object)
             object.draw()
         })
@@ -482,12 +487,11 @@ function game_start() {
             if (object.y < 0) {
                 array.splice(index, 1);
             }
-            object.x += 10;
+            object.x += 10 + Math.floor((Math.random() * 3)) + 1;
             Collision_xy6(object)
             object.draw()
         })
     }
-
 
 
     Frameanimation()
@@ -537,5 +541,6 @@ function game_start() {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
+
 }
 
